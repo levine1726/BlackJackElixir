@@ -1,10 +1,18 @@
 defmodule Deck do
   import Card
-  @suits ["Spades", "Heart", "Club", "Diamonds"]
+  @suits ["Spades", "Hearts", "Clubs", "Diamonds"]
   @rank ["Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "King", "Queen"]
 
   def build_deck do
     build_suits(@suits, []) |> Enum.shuffle()
+  end
+
+  def deal_cards(deck) do
+
+  end
+
+  def deal_cards(deck, :hit = _deal_type) do
+    
   end
 
   defp build_suits([suit_head | suit_tail], results) do
