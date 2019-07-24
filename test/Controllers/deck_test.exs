@@ -28,8 +28,8 @@ defmodule DeckTest do
 
   test "deal hit from deck" do
     deck = Deck.build_deck()
-    {cards, new_deck} = Deck.deal_cards(deck, :hit)
-    assert length(cards) == 1
+    {card, new_deck} = Deck.deal_cards(deck, :hit)
+    assert length(card) == 1
     assert length(new_deck) == 51
   end
 end

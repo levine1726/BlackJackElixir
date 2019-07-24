@@ -8,11 +8,11 @@ defmodule Deck do
   end
 
   def deal_cards(deck) do
-
+    Enum.split(deck, 2)
   end
 
   def deal_cards(deck, :hit = _deal_type) do
-    
+    Enum.split(deck, 1)
   end
 
   defp build_suits([suit_head | suit_tail], results) do
