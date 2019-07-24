@@ -1,0 +1,3 @@
+defmodule Console do
+  
+end
