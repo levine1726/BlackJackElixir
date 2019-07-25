@@ -1,8 +1,6 @@
 defmodule ConsoleTest do
   use ExUnit.Case, async: true
   import ExUnit.CaptureIO
-  import Card
-  import Console
 
   test "print dealer hand" do
     card_1 = %Card{suit: "Spades", rank: "Ace"}

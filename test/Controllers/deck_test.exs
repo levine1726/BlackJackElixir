@@ -1,9 +1,5 @@
 defmodule DeckTest do
   use ExUnit.Case, async: true
-  import ExUnit.CaptureIO
-  import Deck
-  import Card
-
   test "build dealer hand" do
     deck = Deck.build_deck()
     assert length(deck) == 52
