@@ -28,4 +28,25 @@ defmodule DeckTest do
     assert length(card) == 1
     assert length(new_deck) == 51
   end
+
+  test "deal hit from empty deck" do
+    deck = []
+    {card, new_deck} = Deck.deal_cards(deck, :hit)
+    assert length(card) == 1
+    assert length(new_deck) == 51
+  end
+
+  test "deal two cards from empty deck" do
+    deck = []
+    {cards, new_deck} = Deck.deal_cards(deck)
+    assert length(cards) == 2
+    assert length(new_deck) == 50
+  end
+
+  test "deal two cards from deck with one card" do
+    deck = []
+    {cards, new_deck} = Deck.deal_cards(deck)
+    assert length(cards) == 2
+    assert length(new_deck) == 50
+  end
 end
