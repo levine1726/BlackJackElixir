@@ -6,18 +6,12 @@ defmodule Card do
     cards |>
       Enum.map(&get_rank_value/1) |>
       get_point_sum()
-
-    # does_card_have_ace? = Enum.member?(point_values, 11)
-    # total_sum = cond do
-    #   does_card_have_ace? -> get_point_sum_with_ace(point_values)
-    #   true -> point_values |> Enum.reduce(0, fn(point, sum) -> sum + point end)
-    # end
   end
 
   defp get_point_sum(points) do
     points_sum = points
     |> Enum.reduce(0, fn(point, sum) -> sum + point end)
-    total_sum = cond do
+     cond do
       points_sum <= 21 -> points_sum
       points_sum > 21 && Enum.member?(points, 11) -> points |> decrease_one_ace_point() |> get_point_sum()
       true -> :bust
@@ -25,11 +19,11 @@ defmodule Card do
   end
 
   defp decrease_one_ace_point(points) do
-    [eleven_pointer | tail_points] = points |> Enum.sort() |> Enum.reverse()
+    [_eleven_pointer | tail_points] = points |> Enum.sort() |> Enum.reverse()
     [1 | tail_points]
   end
 
-  defp get_rank_value(%Card{suit: _suit, rank: rank} = card) do
+  defp get_rank_value(%Card{suit: _suit, rank: rank} = _card) do
     case rank do
       "Ace" -> 11
       "Jack" -> 10
