@@ -8,6 +8,13 @@ defmodule Card do
       get_point_sum()
   end
 
+  def next_dealer_action(points) do
+    cond do
+      points < 17 -> :hit
+      true -> :stay
+    end
+  end
+
   defp get_point_sum(points) do
     points_sum = points
     |> Enum.reduce(0, fn(point, sum) -> sum + point end)
