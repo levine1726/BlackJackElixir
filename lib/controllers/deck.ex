@@ -8,11 +8,20 @@ defmodule Deck do
   end
 
   def deal_cards(deck) do
+    deck = check_and_redeal_deck(deck, 2)
     Enum.split(deck, 2)
   end
 
   def deal_cards(deck, :hit = _deal_type) do
+    deck = check_and_redeal_deck(deck, 1)
     Enum.split(deck, 1)
+  end
+
+  def check_and_redeal_deck(deck, deal_amount) do
+    cond do
+      length(deck) < deal_amount -> build_deck()
+      true -> deck
+    end
   end
 
   defp build_suits([suit_head | suit_tail], results) do
