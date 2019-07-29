@@ -38,7 +38,7 @@ defmodule CardTest do
       card_2 = %Card{suit: "Clubs", rank: "2"}
       card_3 = %Card{suit: "Diamonds", rank: "Jack"}
 
-      assert calculate_hand([card_1, card_2, card_3]) == :bust
+      assert calculate_hand([card_1, card_2, card_3]) == 22
     end
 
     test "calculate Ace, 10, 2, Jack" do
@@ -47,7 +47,7 @@ defmodule CardTest do
       card_3 = %Card{suit: "Clubs", rank: "2"}
       card_4 = %Card{suit: "Diamonds", rank: "Jack"}
 
-      assert calculate_hand([card_1, card_2, card_3, card_4]) == :bust
+      assert calculate_hand([card_1, card_2, card_3, card_4]) == 23
     end
 
     test "calculate Ace, 10, Ace, 2, Jack" do
@@ -57,7 +57,7 @@ defmodule CardTest do
       card_4 = %Card{suit: "Clubs", rank: "2"}
       card_5 = %Card{suit: "Diamonds", rank: "Jack"}
 
-      assert calculate_hand([card_1, card_2, card_3, card_4, card_5]) == :bust
+      assert calculate_hand([card_1, card_2, card_3, card_4, card_5]) == 24
     end
   end
 
