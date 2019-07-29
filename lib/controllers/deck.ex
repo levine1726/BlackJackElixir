@@ -14,7 +14,7 @@ defmodule Deck do
 
   def deal_cards(deck, :hit = _deal_type) do
     deck = check_and_redeal_deck(deck, 1)
-    Enum.split(deck, 1)
+    {new_card_array, new_deck}= Enum.split(deck, 1)
   end
 
   def check_and_redeal_deck(deck, deal_amount) do

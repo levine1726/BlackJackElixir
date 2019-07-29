@@ -19,9 +19,8 @@ defmodule Card do
     points_sum = points
     |> Enum.reduce(0, fn(point, sum) -> sum + point end)
      cond do
-      points_sum <= 21 -> points_sum
       points_sum > 21 && Enum.member?(points, 11) -> points |> decrease_one_ace_point() |> get_point_sum()
-      true -> :bust
+      true -> points_sum
     end
   end
 
