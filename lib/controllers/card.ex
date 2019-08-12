@@ -10,6 +10,7 @@ defmodule Card do
 
   def next_dealer_action(points) do
     cond do
+      points > 21 -> :bust
       points < 17 -> :hit
       true -> :stay
     end
