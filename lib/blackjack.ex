@@ -26,13 +26,33 @@ defmodule Blackjack do
 
     with {players_hand, :ok, deck} <- finalize_player_hand(players_hand, deck) do
       #if no bust, dealer plays his hand out
-      Console.show_hand(dealers_hand, :player)
+      Console.notify_dealer_playing()
       {dealers_hand, is_bust, deck} = play_dealers_hand(dealers_hand, deck)
-
+      case is_bust do
+        true -> notify_dealer_busted(dealers_hand)
+        false -> calculate_winner(players_hand, dealers_hand)
+      end
+      end_round(deck)
     else
-      {players_hand, :bust, deck} -> players_hand |> notify_player_bust()
+      {players_hand, :bust, deck} -> players_hand |> notify_player_bust(deck)
     end
-    # ask to play again or quit
+  end
+
+  defp notify_dealer_busted(dealers_hand) do
+    Console.show_hand(dealers_hand, :dealer)
+    points = dealers_hand |> Card.calculate_hand()
+    Console.notify_bust(points, :dealer)
+  end
+
+  defp calculate_winner(players_hand, dealers_hand) do
+    Console.show_hand(dealers_hand, :dealer)
+    player_points = players_hand |> Card.calculate_hand()
+    dealer_points = dealers_hand |> Card.calculate_hand()
+    cond do
+      player_points > dealer_points -> Console.notify_player_win()
+      player_points == dealer_points -> Console.notify_tie()
+      true -> Console.notify_player_loss()
+    end
   end
 
   defp play_dealers_hand(dealers_hand, deck) do
@@ -50,12 +70,12 @@ defmodule Blackjack do
     play_dealers_hand(new_hand, deck)
   end
 
-  defp notify_player_bust(players_hand) do
+  defp notify_player_bust(players_hand, deck) do
     final_score = players_hand
       |> Card.calculate_hand()
 
     Console.notify_bust(final_score, :player)
-    end_round()
+    end_round(deck)
   end
 
 
@@ -80,10 +100,12 @@ defmodule Blackjack do
     end
   end
 
-  defp end_round() do
-    # show dealer hand
-    #ask user to play another round or to quit
-    Console.end_game()
+  defp end_round(deck) do
+    play_again? = Console.request_new_round()
+    case play_again? do
+      true -> play_round(deck)
+      false -> Console.end_game()
+    end
   end
 end
 
