@@ -26,17 +26,28 @@ defmodule Blackjack do
 
     with {players_hand, :ok, deck} <- finalize_player_hand(players_hand, deck) do
       #if no bust, dealer plays his hand out
-      IO.puts("You did not bust!\n\n-----------------------")
-      Console.show_hand(players_hand, :player)
+      Console.show_hand(dealers_hand, :player)
+      {dealers_hand, is_bust, deck} = play_dealers_hand(dealers_hand, deck)
 
     else
       {players_hand, :bust, deck} -> players_hand |> notify_player_bust()
     end
-
-
-    #show dealer result
-
     # ask to play again or quit
+  end
+
+  defp play_dealers_hand(dealers_hand, deck) do
+    points = dealers_hand |> Card.calculate_hand()
+    case points |> Card.next_dealer_action() do
+      :bust -> {dealers_hand, true, deck}
+      :stay -> {dealers_hand, false, deck}
+      :hit -> dealer_takes_hit(dealers_hand, deck)
+    end
+  end
+
+  defp dealer_takes_hit(dealers_hand, deck) do
+    {new_card, deck} = Deck.deal_cards(deck, :hit)
+    new_hand = [List.first(new_card) | dealers_hand]
+    play_dealers_hand(new_hand, deck)
   end
 
   defp notify_player_bust(players_hand) do
@@ -46,6 +57,7 @@ defmodule Blackjack do
     Console.notify_bust(final_score, :player)
     end_round()
   end
+
 
   defp finalize_player_hand(player_hand, deck) do
     player_action = Console.request_player_action()
